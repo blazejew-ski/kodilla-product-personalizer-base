@@ -9,7 +9,7 @@ const ProductForm = props => {
     <form onSubmit={props.addToCart}>
       <div className={styles.sizes}>
         <h3 className={styles.optionLabel}>Sizes</h3>
-        <OptionSize sizes={props.sizes} setCurrentSize={props.setCurrentSize} getPrice={props.getPrice} prepareSizeClassNameActive={props.prepareSizeClassNameActive}/>
+        <OptionSize sizes={props.sizes} setCurrentSize={props.setCurrentSize} basePrice={props.basePrice}prepareSizeClassNameActive={props.prepareSizeClassNameActive} setCurrentPrice={props.setCurrentPrice} setAdditionalPrice={props.setAdditionalPrice}/>
       </div>
       <div className={styles.colors}>
         <h3 className={styles.optionLabel}>Colors</h3>

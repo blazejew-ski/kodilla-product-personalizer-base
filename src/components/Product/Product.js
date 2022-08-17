@@ -2,13 +2,14 @@ import styles from './Product.module.scss';
 import ProductImage from '../ProductImage/ProductImage';
 import ProductForm from '../ProductForm/ProductForm';
 import { useState } from 'react';
+import { useMemo } from "react";
 
 const Product = props => {
 
   const [currentSize, setCurrentSize] = useState(props.sizes[0].name);
   const [currentColor, setCurrentColor] = useState(props.colors[0]);
   const [currentPrice, setCurrentPrice] = useState(props.basePrice);
-  const title = props.title;
+  const [additionalPrice, setAdditionalPrice] = useState(props.sizes[0].additionalPrice);
 
   const prepareColorClassName = color => {
     return styles['color' + color[0].toUpperCase() + color.substr(1).toLowerCase()];
@@ -28,17 +29,31 @@ const Product = props => {
     else {return ''};
   }
 
-  const getPrice = additionalPrice => {
-    console.log(additionalPrice);
-    setCurrentPrice(props.basePrice + additionalPrice);
-  }
+  const getPrice = useMemo(() => {
+    return (
+      props.basePrice +
+      additionalPrice
+    );
+  }, [currentPrice]);
+
+  // function getPrice(additionalPrice) {
+  //   console.log(additionalPrice);
+  //   setCurrentPrice(props.basePrice + additionalPrice);
+  // }
+
+  // const memoPrice = useMemo(() => getPrice(additionalPrice), [additionalPrice])
+
+  // const getPrice = useMemo((additionalPrice) => {
+  //   console.log(additionalPrice);
+  //   setCurrentPrice(props.basePrice + additionalPrice);
+  // }, [currentPrice])
 
   const addToCart = e => {
     e.preventDefault();
     console.log(
       'Summary:', '\n',
       '=-=-=-=-=-=-=-=', '\n',
-      'Name: ', title, '\n',
+      'Name: ', props.title, '\n',
       'Price: ', currentPrice, '\n',
       'Size: ', currentSize, '\n',
       'Color: ', currentColor, '\n',
@@ -51,12 +66,13 @@ const Product = props => {
       <div>
         <header>
           <h2 className={styles.name}>{props.title}</h2>
-          <span className={styles.price}>Price: {currentPrice}</span>
+          <span className={styles.price}>Price: {getPrice}</span>
         </header>
-        <ProductForm sizes={props.sizes} title={props.title} setCurrentSize={setCurrentSize} getPrice={getPrice} prepareSizeClassNameActive={prepareSizeClassNameActive} colors={props.colors} setCurrentColor={setCurrentColor} prepareColorClassName={prepareColorClassName} prepareColorClassNameActive={prepareColorClassNameActive} currentSize={currentSize} currentColor={currentColor} currentPrice={currentPrice} setCurrentPrice={setCurrentPrice} addToCart={addToCart}/>
+        <ProductForm sizes={props.sizes} title={props.title} setCurrentSize={setCurrentSize} basePrice={props.basePrice} prepareSizeClassNameActive={prepareSizeClassNameActive} colors={props.colors} setCurrentColor={setCurrentColor} prepareColorClassName={prepareColorClassName} prepareColorClassNameActive={prepareColorClassNameActive} currentSize={currentSize} currentColor={currentColor} currentPrice={currentPrice} setCurrentPrice={setCurrentPrice} addToCart={addToCart} setAdditionalPrice={setAdditionalPrice}/>
       </div>
     </article>
   )
 };
 
 export default Product;
+

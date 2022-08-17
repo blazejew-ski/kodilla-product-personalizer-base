@@ -5,7 +5,7 @@ const OptionSize = props => {
 
 	return (
     <ul className={styles.choices}>
-      {props.sizes.map(size => <li key={size.name}><button type="button" onClick={() => {props.setCurrentSize(size.name); props.getPrice(size.additionalPrice);}} className={clsx(props.prepareSizeClassNameActive(size.name), size.name === size.name,  )}>{size.name}</button></li>)}
+      {props.sizes.map(size => <li key={size.name}><button type="button" onClick={() => {props.setCurrentSize(size.name); props.setCurrentPrice(props.basePrice+size.additionalPrice); props.setAdditionalPrice(size.additionalPrice);}} className={clsx(props.prepareSizeClassNameActive(size.name), size.name === size.name,  )}>{size.name}</button></li>)}
     </ul>
 	);
 };
